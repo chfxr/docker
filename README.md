@@ -48,6 +48,18 @@ Even though it seems to be stable so far, it is still a beta, which means that y
     ```bash
     $ docker-compose exec greenlight bundle exec rake admin:create
     ```
+## Troubleshooting
+
+### Freeswitch can't connect
+```FreeSWITCH ESL connection received error ETIMEDOUT```
+
+Related issue: https://github.com/bigbluebutton/docker/issues/86
+
+#### Solution: 
+
+```ufw allow from 10.7.7.0/24```
+
+
 
 ## Further How-To's
 - [Upgrading](docs/upgrading.md)
