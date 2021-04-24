@@ -15,13 +15,13 @@ RUN cd /bbb-common-message \
 
 # install grails
 RUN cd /opt \
- && wget -q https://github.com/grails/grails-core/releases/download/v3.3.9/grails-3.3.9.zip \
+ && wget -qq https://github.com/grails/grails-core/releases/download/v3.3.9/grails-3.3.9.zip \
  && unzip grails-3.3.9.zip
 ENV PATH="/opt/grails-3.3.9/bin:${PATH}"
 
 # install gradle
 RUN cd /opt \
- && wget -q https://services.gradle.org/distributions/gradle-6.7-bin.zip \
+ && wget -qq https://services.gradle.org/distributions/gradle-6.7-bin.zip \
  && unzip gradle-6.7-bin
 ENV PATH="/opt/gradle-6.7/bin:${PATH}"
 
@@ -46,7 +46,7 @@ RUN cd /bbb-web && grails assemble
 RUN cd /bbb-web/pres-checker && gradle resolveDeps
 
 # extract .war
-RUN unzip -q /bbb-web/build/libs/bigbluebutton-0.10.0.war -d /dist
+RUN unzip -qq /bbb-web/build/libs/bigbluebutton-0.10.0.war -d /dist
 
 
 # ===================================================
@@ -68,7 +68,7 @@ RUN groupadd -g 998 bigbluebutton && useradd -m -u 998 -g bigbluebutton bigblueb
 
 # add dockerize
 ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+RUN wget -qq https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
@@ -76,11 +76,11 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 # add blank presentation files and allow conversation to pdf/svg
 RUN mkdir -p /usr/share/bigbluebutton/blank \
     && cd /usr/share/bigbluebutton/blank \
-    && wget \
-        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/v2.3-alpha-2/bigbluebutton-config/slides/blank-svg.svg \
-        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/v2.3-alpha-2/bigbluebutton-config/slides/blank-thumb.png \
-        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/v2.3-alpha-2/bigbluebutton-config/slides/blank-presentation.pdf \
-        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/v2.3-alpha-2/bigbluebutton-config/slides/blank-png.png \
+    && wget -qq \
+        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/$TAG_COMMON_WEB/bigbluebutton-config/slides/blank-svg.svg \
+        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/$TAG_COMMON_WEB/bigbluebutton-config/slides/blank-thumb.png \
+        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/$TAG_COMMON_WEB/bigbluebutton-config/slides/blank-presentation.pdf \
+        https://raw.githubusercontent.com/bigbluebutton/bigbluebutton/$TAG_COMMON_WEB/bigbluebutton-config/slides/blank-png.png \
     && sed -i 's/<policy domain="coder" rights="none" pattern="PDF" \/>/<policy domain="coder" rights="write" pattern="PDF" \/>/g' /etc/ImageMagick-6/policy.xml
 
 # get bbb-web

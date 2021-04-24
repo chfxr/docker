@@ -274,7 +274,7 @@ public:
     #   profile: a camera profile id from the cameraProfiles configuration array
     #            that will be applied to all cameras when threshold is hit
     cameraQualityThresholds:
-      enabled: true
+      enabled: {{ .Env.CAMERA_QUALITY_THRESHOLDS }} #TODO Set this in the main config
       thresholds:
         - threshold: 8
           profile: low-u8
@@ -307,7 +307,7 @@ public:
         moderator: 2
         viewer: 2
     paginationThresholds:
-      enabled: false
+      enabled: {{ .Env.PAGINATION_THRESHOLDS }} #TODO Set this in the main config
       thresholds:
         - users: 30
           desktopPageSizes:
@@ -352,7 +352,7 @@ public:
     max_custom: 5
     allowDragAndDropFile: false
   captions:
-    enabled: true
+    enabled: {{ .Env.ENABLE_CAPTIONS }} #TODO Set this in the main config
     enableDictation: false
     backgroundColor: '#000000'
     fontColor: '#FFFFFF'
@@ -386,11 +386,11 @@ public:
     typingIndicator:
       enabled: true
   note:
-    enabled: true
+    enabled: {{ .Env.ENABLE_NOTES }} #TODO Set this in the main config
     url: https://{{ .Env.DOMAIN }}/pad
   layout:
     autoSwapLayout: false
-    hidePresentation: false
+    hidePresentation: {{ .Env.HIDE_PRESENTATION }} #TODO Set this in the main config
     showParticipantsOnLogin: true
     webcamsDefaultPlacement: 'top'
   media:

@@ -44,7 +44,7 @@ services:
     depends_on:
         - redis
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://10.7.7.2:8090/bigbluebutton/api || exit 1
+      test: wget --no-verbose --tries=1 --spider http://10.7.7.2:8090/bigbluebutton/api || exit 1 #TODO Check replacement of fixed IP
       start_period: 2m
     environment:
       DEV_MODE: ${DEV_MODE:-}
@@ -63,7 +63,7 @@ services:
       - vol-kurento:/var/kurento
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.2
+        ipv4_address: 10.7.7.2 #TODO Check replacement of fixed IP
 
 
 {{ range $i := loop 0 (atoi .Env.NUMBER_OF_BACKEND_NODEJS_PROCESSES) }}
@@ -75,7 +75,7 @@ services:
       PORT: {{ add 4000 $i }}
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.{{ add 100 $i }}
+        ipv4_address: 10.7.7.{{ add 100 $i }} #TODO Check replacement of fixed IP
 {{end}}
 
 {{ range $i := loop 0 (atoi .Env.NUMBER_OF_FRONTEND_NODEJS_PROCESSES) }}
@@ -87,7 +87,7 @@ services:
       PORT: {{ add 4100 $i }}
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.{{ add 200 $i }}
+        ipv4_address: 10.7.7.{{ add 200 $i }} #TODO Check replacement of fixed IP
 {{end}}
 
 
@@ -128,7 +128,7 @@ services:
       - html5-static:/html5-static:ro
       - ${DEFAULT_PRESENTATION:-/dev/null}:/www/default.pdf
     network_mode: host
-    extra_hosts:
+    extra_hosts: #TODO Check replacement of fixed IP
       - "host.docker.internal:10.7.7.1"
       - "bbb-web:10.7.7.2"
       - "etherpad:10.7.7.4"
@@ -156,7 +156,7 @@ services:
       retries: 30
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.5 
+        ipv4_address: 10.7.7.5 #TODO Check replacement of fixed IP
 
   mongodb:
     image: mongo:4.4
@@ -172,7 +172,7 @@ services:
       test: bash -c "if mongo --eval 'quit(db.runCommand({ ping':' 1 }).ok ? 0 ':' 2)'; then exit 0; fi; exit 1;"
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.6
+        ipv4_address: 10.7.7.6 #TODO Check replacement of fixed IP
 
   kurento:
     image: kurento/kurento-media-server:6.16
@@ -207,11 +207,11 @@ services:
     ports:
       - "127.0.0.1:3008:3008"
     extra_hosts:
-      - host.docker.internal:10.7.7.1
-      - kurento:10.7.7.1
+      - host.docker.internal:10.7.7.1 #TODO Check replacement of fixed IP
+      - kurento:10.7.7.1 #TODO Check replacement of fixed IP
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.10
+        ipv4_address: 10.7.7.10 #TODO Check replacement of fixed IP
 
   fsesl-akka:
     build: mod/fsesl-akka
@@ -221,7 +221,7 @@ services:
       FSESL_PASSWORD: ${FSESL_PASSWORD:-ClueCon}
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.14
+        ipv4_address: 10.7.7.14 #TODO Check replacement of fixed IP
 
   apps-akka:
     build: mod/apps-akka
@@ -234,7 +234,7 @@ services:
       - vol-freeswitch:/var/freeswitch/meetings
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.15
+        ipv4_address: 10.7.7.15 #TODO Check replacement of fixed IP
 
   jodconverter:
     image: eugenmayer/jodconverter:rest
@@ -245,7 +245,7 @@ services:
           memory: 512M
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.20
+        ipv4_address: 10.7.7.20 #TODO Check replacement of fixed IP
   
   periodic:
     build: mod/periodic
@@ -257,7 +257,7 @@ services:
       - bigbluebutton:/var/bigbluebutton
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.12
+        ipv4_address: 10.7.7.12 #TODO Check replacement of fixed IP
 
 {{ if isTrue .Env.ENABLE_RECORDING }}
   # recordings
@@ -277,7 +277,7 @@ services:
       - /tmp
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.16
+        ipv4_address: 10.7.7.16 #TODO Check replacement of fixed IP
 {{end}}
 
 {{ if isTrue .Env.ENABLE_WEBHOOKS }}
@@ -292,7 +292,7 @@ services:
       - redis
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.17
+        ipv4_address: 10.7.7.17 #TODO Check replacement of fixed IP
 {{end}}
 
 {{ if isTrue .Env.ENABLE_HTTPS_PROXY }}
@@ -329,14 +329,14 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: password
       {{ if isTrue .Env.DEV_MODE }}
-      BIGBLUEBUTTON_ENDPOINT: http://10.7.7.1:8080/bigbluebutton/api/
+      BIGBLUEBUTTON_ENDPOINT: http://10.7.7.1:8080/bigbluebutton/api/ #TODO Check replacement of fixed IP
       {{else}}
       BIGBLUEBUTTON_ENDPOINT: https://${DOMAIN}/bigbluebutton/api/
       {{end}}
       BIGBLUEBUTTON_SECRET: ${SHARED_SECRET}
       SECRET_KEY_BASE: ${RAILS_SECRET}
     ports:
-      - 10.7.7.1:5000:80
+      - 10.7.7.1:5000:80 #TODO Check replacement of fixed IP
   postgres:
     image: postgres:12-alpine
     restart: unless-stopped
@@ -364,7 +364,7 @@ services:
       RECORDINGS_METRICS_READ_FROM_DISK: "false"
     networks:
       bbb-net:
-        ipv4_address: 10.7.7.33
+        ipv4_address: 10.7.7.33 #TODO Check replacement of fixed IP
 {{end}}
 
 volumes:
